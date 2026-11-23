@@ -1,7 +1,7 @@
 // Tiny Globe : mode hors ligne.
 // Au premier lancement, tout le jeu est mis de côté sur le téléphone ; ensuite il marche sans connexion.
 // La page est toujours redemandée en ligne d'abord : quand une nouvelle version est publiée, elle arrive au lancement suivant.
-const VERSION = 'tg-542395038b';
+const VERSION = 'tg-67fa46fed9';
 const FILES = [
  "./",
  "index.html",
