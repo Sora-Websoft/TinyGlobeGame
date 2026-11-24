@@ -1889,13 +1889,31 @@ $('#bSound').onclick = () => { audioInit(); S.sound = !S.sound; syncAudio(); syn
 $('#bMusic').onclick = () => { audioInit(); S.music = !S.music; if (A.mus) A.mus.gain.value = S.music ? 1 : 0; syncTools(); save(); toast(S.music ? (ZH ? "音乐已开启" : 'Musique activée') : (ZH ? "音乐已关闭" : 'Musique coupée'), 1400); };
 $('#bShelf').onclick = () => openShelf(false);
 $('#bFlip').addEventListener('click', () => { if (!doFlip() && FLIP.cd > 0 && isD()) toast((ZH ? `沙子还在流……${Math.ceil(FLIP.cd)} 秒` : `Le sable s’écoule encore… ${Math.ceil(FLIP.cd)} s`), 1600); });
-$('#bSet').onclick = () => { audioInit(); $('#settings').classList.add('show'); };
-$('#setClose').onclick = () => $('#settings').classList.remove('show');
-$('#settings').addEventListener('click', e => { if (e.target.id === 'settings') $('#settings').classList.remove('show'); });
+// langue : le choix s'applique en fermant les paramètres (la page se recharge alors si la langue a changé).
+// Passage secret : changer 10 fois de langue de suite sans fermer les paramètres active (ou désactive) le mode développeur.
+let langPick = ZH, langFlips = 0;
+const langSync = () => document.querySelectorAll('.lang-sw button').forEach(b => b.classList.toggle('on', (b.dataset.lang === 'zh') === langPick));
+function setDevMode(on) {
+  try { localStorage.setItem('tinyglobe_dev', on ? '1' : '0'); } catch (_) {}
+  document.body.classList.toggle('devmode', on); if (!on) $('#devMenu').classList.remove('on');
+}
+function closeSettings() {
+  $('#settings').classList.remove('show'); langFlips = 0;
+  if (langPick !== ZH) { try { localStorage.setItem('tinyglobe_lang', langPick ? 'zh' : 'fr'); } catch (_) {} save(); location.reload(); }
+}
+$('#bSet').onclick = () => { audioInit(); langPick = ZH; langFlips = 0; langSync(); $('#settings').classList.add('show'); };
+$('#setClose').onclick = closeSettings;
+$('#settings').addEventListener('click', e => { if (e.target.id === 'settings') closeSettings(); });
 document.querySelectorAll('.lang-sw button').forEach(b => {
-  b.classList.toggle('on', (b.dataset.lang === 'zh') === ZH);
-  b.onclick = () => { if ((b.dataset.lang === 'zh') === ZH) return; try { localStorage.setItem('tinyglobe_lang', b.dataset.lang); } catch (_) {} save(); location.reload(); };
+  b.onclick = () => {
+    const zh = b.dataset.lang === 'zh'; if (zh === langPick) return;
+    langPick = zh; langSync();
+    if (++langFlips >= 10) { langFlips = 0; const on = !document.body.classList.contains('devmode'); setDevMode(on); buzz([20, 40, 20]);
+      toast(on ? (ZH ? "开发者模式已开启" : 'Mode développeur activé') : (ZH ? "开发者模式已关闭" : 'Mode développeur désactivé'), 2200); }
+  };
 });
+langSync();
+try { if (localStorage.getItem('tinyglobe_dev') === '1') document.body.classList.add('devmode'); } catch (_) {}
 $('#bEco').onclick = () => { ECO = !ECO; try { localStorage.setItem('tinyglobe_eco', ECO ? '1' : '0'); } catch (_) {} QDPR = 0; resize(); syncTools(); toast(ECO ? (ZH ? "省电模式已开启" : 'Économie d’énergie activée') : (ZH ? "省电模式已关闭" : 'Économie d’énergie désactivée'), 1400); };
 function syncTools() { $('#bSound').classList.toggle('off', !S.sound); $('#bMusic').classList.toggle('off', !S.music); $('#bEco').classList.toggle('off', !ECO); }
 let toastTimer = 0;
