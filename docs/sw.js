@@ -1,7 +1,7 @@
 // Tiny Globe : mode hors ligne.
 // Au premier lancement, tout le jeu est mis de côté sur le téléphone ; ensuite il marche sans connexion.
 // La page est toujours redemandée en ligne d'abord : quand une nouvelle version est publiée, elle arrive au lancement suivant.
-const VERSION = 'tg-5b0c30b387';
+const VERSION = 'tg-7ab6bfc77a';
 const FILES = [
  "./",
  "index.html",
@@ -15,12 +15,14 @@ const FILES = [
  "assets/icon.png",
  "assets/logo.png",
  "assets/music_desert.mp3",
+ "assets/music_fair.mp3",
  "assets/music_garden.mp3",
  "assets/music_intro.mp3",
  "assets/music_paris.mp3",
  "assets/music_planet.mp3",
  "assets/music_sea.mp3",
  "assets/music_snow.mp3",
+ "assets/music_volcano.mp3",
  "assets/plaque.jpg",
  "assets/sprites/d_cactus.webp",
  "assets/sprites/d_chameau.webp",
@@ -51,6 +53,10 @@ const FILES = [
  "assets/sprites/f_canard.webp",
  "assets/sprites/f_canard_or.webp",
  "assets/sprites/f_carrousel.webp",
+ "assets/sprites/f_carrousel_tourne_1.webp",
+ "assets/sprites/f_carrousel_tourne_2.webp",
+ "assets/sprites/f_carrousel_tourne_3.webp",
+ "assets/sprites/f_carrousel_tourne_4.webp",
  "assets/sprites/f_clown.webp",
  "assets/sprites/f_clown_danse_1.webp",
  "assets/sprites/f_clown_danse_2.webp",
