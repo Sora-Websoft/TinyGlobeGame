@@ -1338,7 +1338,7 @@ let musInst = [];
 // le fichier est téléchargé tôt ; il n'est décodé (lourd en mémoire) que pour la boule en cours
 function musFetch(id) {
   if (!MUSIC[id]) return null;
-  if (MUS.raw[id] === undefined) MUS.raw[id] = fetch(MUSIC[id]).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
+  if (MUS.raw[id] === undefined) MUS.raw[id] = fetch(MUSIC[id] + AV).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
   return MUS.raw[id];
 }
 function musBuffer(id) {
@@ -2737,6 +2737,7 @@ function drawOwl() {
    twinkle: petites lumières qui scintillent la nuit [x, y, couleur]
    ===================================================================== */
 const SP = 'assets/sprites/';
+const AV = '?v=35ad61ca';   // version des images et musiques, ajoutée aux adresses dans la version installable (évite les vieilles copies)
 const SPRITES = {
   garden: {
     tree: { src: SP + 'j_cerisier.webp', h: 0.42, dy: 0.006, sway: 0.016, wind: 1 },
@@ -2996,7 +2997,7 @@ function sprImg(src) {
       // une seule mise à jour des icônes quand tout un lot d'images arrive
       clearTimeout(sprRedraw); sprRedraw = setTimeout(() => { renderIcons(); renderShop(true); }, 150);
     };
-    im.src = src;
+    im.src = src + AV;
   }
   return im._ok ? im : null;
 }
